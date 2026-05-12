@@ -1,0 +1,9 @@
+captures.log
+*.log
+report.html
+cloned_page.html
+test.html
+__pycache__/
+*.pyc
+get-pip.py
+.dist
