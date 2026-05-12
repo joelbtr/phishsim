@@ -1,0 +1,125 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<title>Login :: Damn Vulnerable Web Application (DVWA) v1.10 *Development*</title>
+<style>body {
+	background: #fefffe;
+	font: 12px/15px Arial, Helvetica, sans-serif;
+	line-height: 20px;
+	color: #6b6b6b;
+}
+
+#wrapper {
+	text-align: center;
+	margin: 0 auto;
+}
+
+#content {
+	display: inline-block;
+	padding: 20px;
+	width: auto;
+}
+
+#footer {
+	position: absolute;
+	width: 100%;
+	height: 50px;
+	bottom: 0px;
+	left: 0px;
+}
+
+label {
+	float: left;
+	text-align: right;
+	margin-right: 0.5em;
+	display: block;
+	overflow: hidden;
+	padding-right: 50px;
+	font-weight: bold;
+}
+
+.loginInput {
+	float: left;
+	color: #6B6B6B;
+	width: 320px;
+	background-color: #F4F4F4;
+	border: 1px;
+	border-style: solid;
+	border-color: #c4c4c4;
+	padding: 6px;
+	margin-bottom: 12px;
+}
+
+fieldset {
+	width: 350px;
+	padding: 10px 20px 10px 20px;
+	overflow: hidden;
+	border-style: none;
+}
+
+p {
+	font-size: 10px;
+}
+
+</style>
+</head>
+<body data-redirect="https://example.com/awareness">
+<div id="wrapper">
+<div id="header">
+<br/>
+<p><img src="dvwa/images/login_logo.png"/></p>
+<br/>
+</div> <!--<div id="header">-->
+<div id="content">
+<form action="/capture" method="post">
+<fieldset>
+<label for="user">Username</label> <input class="loginInput" name="username" size="20" type="text"/><br/>
+<label for="pass">Password</label> <input autocomplete="off" class="loginInput" name="password" size="20" type="password"/><br/>
+<br/>
+<p class="submit"><input name="Login" type="submit" value="Login"/></p>
+</fieldset>
+<input name="user_token" type="hidden" value="15f63af69bbb00d7e18e8ce319d1f49e">
+</input></form>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<!-- <img src="dvwa/images/RandomStorm.png" /> -->
+</div> <!--<div id="content">-->
+<div id="footer">
+<p><a href="http://www.dvwa.co.uk/" target="_blank">Damn Vulnerable Web Application (DVWA)</a></p>
+</div> <!--<div id="footer"> -->
+</div> <!--<div id="wrapper"> -->
+
+<script>
+// PhishSim: intercept form submission and POST to capture endpoint
+document.addEventListener('DOMContentLoaded', function() {
+    var forms = document.querySelectorAll('form');
+    forms.forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var data = new FormData(form);
+            var obj = {};
+            data.forEach(function(v, k) { obj[k] = v; });
+            fetch('/capture', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(obj)
+            }).then(function(r) { return r.json(); })
+              .then(function(resp) {
+                  if (resp.redirect) window.location.href = resp.redirect;
+              });
+        });
+    });
+});
+</script>
+<div style="position:fixed;bottom:12px;right:12px;background:rgba(220,50,50,0.85);color:#fff;font-family:monospace;font-size:11px;padding:4px 10px;border-radius:4px;z-index:9999;pointer-events:none;">PHISHSIM — SIMULATION ONLY</div></body>
+</html>
